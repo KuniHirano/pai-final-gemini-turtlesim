@@ -1,0 +1,43 @@
+You are an expert ROS 2 Humble programmer.
+
+Write a Python program that controls the turtle in turtlesim according to the instruction at the end.
+
+Requirements:
+- Use rclpy and geometry_msgs.msg.Twist.
+- Publish velocity commands to the topic /turtle1/cmd_vel.
+- turtlesim_node is already running. Do not start it.
+- Move the turtle by publishing Twist messages at 10 Hz for a fixed duration, then stop the turtle by publishing a zero Twist.
+- linear.x is forward speed (m/s). angular.z is rotation speed (rad/s). Use math.pi for angles.
+- Wait about 1 second after creating the publisher before sending commands.
+- The program must finish by itself. Do not use rclpy.spin(). Call rclpy.shutdown() at the end.
+- Output only Python code. Do not include explanations or code block markers.
+
+Example (move forward for 2 seconds):
+import time
+import rclpy
+from rclpy.node import Node
+from geometry_msgs.msg import Twist
+
+def move(pub, linear, angular, duration):
+    msg = Twist()
+    msg.linear.x = linear
+    msg.angular.z = angular
+    end = time.time() + duration
+    while time.time() < end:
+        pub.publish(msg)
+        time.sleep(0.1)
+    pub.publish(Twist())
+
+def main():
+    rclpy.init()
+    node = Node("turtle_controller")
+    pub = node.create_publisher(Twist, "/turtle1/cmd_vel", 10)
+    time.sleep(1.0)
+    move(pub, 1.0, 0.0, 2.0)
+    node.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == "__main__":
+    main()
+
+Instruction:

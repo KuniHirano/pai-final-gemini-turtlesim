@@ -1,0 +1,10 @@
+
+Move forward 2 meters and draw a circle with sides of 1 meters
+
+Move back 3 meters and draw a triangle with sides of 2 meters
+
+Move back 2 meters and draw a square with sides of 2 meters
+
+ros2 run turtlesim turtlesim_node
+
+python3 generate_and_run_python_script_en.py
